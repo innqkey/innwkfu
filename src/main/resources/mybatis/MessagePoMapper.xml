@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weikefu.dao.MessagePoMapper">
+  <resultMap id="BaseResultMap" type="com.weikefu.po.Message">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="messageid" jdbcType="BIGINT" property="messageid" />
+    <result column="roomid" jdbcType="VARCHAR" property="roomid" />
+    <result column="shopid" jdbcType="INTEGER" property="shopid" />
+    <result column="custid" jdbcType="INTEGER" property="custid" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="custname" jdbcType="VARCHAR" property="custname" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="msgtype" jdbcType="VARCHAR" property="msgtype" />
+    <result column="msgcount" jdbcType="BIGINT" property="msgcount" />
+    <result column="joinway" jdbcType="VARCHAR" property="joinway" />
+    <result column="sendway" jdbcType="VARCHAR" property="sendway" />
+    <result column="headurl" jdbcType="VARCHAR" property="headurl" />
+    <result column="standby2" jdbcType="VARCHAR" property="standby2" />
+    <result column="message" jdbcType="LONGVARCHAR" property="message" />
+  </resultMap>
+	  <select id="selectByShopIdAndUserId"  parameterType="Map" resultMap="BaseResultMap">
+	  		select *
+	  		from kefu_message
+	  		where 1=1
+	  		<if test="shopid != null and shopid !=''">
+	  			and shopid=#{shopid}
+	  		</if>
+	  		<if test="userid != null and userid != '' ">
+	  			and userid=#{userid}
+	  		</if>
+	  		<if test="messageid != null and messageid != '' ">
+	  			<![CDATA[and messageid < #{messageid} ]]>		
+	  		</if>		  
+			order by messageid desc
+	  	</select>
+  
+</mapper>

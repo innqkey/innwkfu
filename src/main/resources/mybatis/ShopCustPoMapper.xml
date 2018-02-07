@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weikefu.dao.ShopCustPoMapper">
+  <resultMap id="BaseResultMap" type="com.weikefu.po.ShopCustPo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="custid" jdbcType="INTEGER" property="custid" />
+    <result column="custname" jdbcType="VARCHAR" property="custname" />
+    <result column="shopid" jdbcType="INTEGER" property="shopid" />
+    <result column="custserverstatus" jdbcType="VARCHAR" property="custserverstatus" />
+    <result column="maxusernum" jdbcType="INTEGER" property="maxusernum" />
+    <result column="joinusernum" jdbcType="INTEGER" property="joinusernum" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="onlinetimelong" jdbcType="TINYINT" property="onlinetimelong" />
+    <result column="serveruserid" jdbcType="INTEGER" property="serveruserid" />
+    <result column="standby1" jdbcType="VARCHAR" property="standby1" />
+    <result column="standby2" jdbcType="VARCHAR" property="standby2" />
+  </resultMap>
+  
+  		<!--  
+	  <insert id="save" parameterType = "com.weikefu.po.ShopCustPo">
+	  	INSERT INTO kefu_shop_cust_status
+	  	(custid, custname, shopid, custserverstatus, maxusernum, joinusernum, createtime, updatetime, onlinetimelong)
+	  	VALUES
+	  	(#{custid}, #{custname}, #{shopid}, #{custserverstatus}, #{maxusernum}, #{joinusernum}, #{createtime}, #{updatetime}, #{onlinetimelong})
+	  </insert>-->
+  
+	  <select id="custStatus"  parameterType="Map" resultMap="BaseResultMap">
+	  		select *
+	  		from kefu_shop_cust_status
+	  		where 1=1
+	  		<if test="custid != null and custid !=''">
+	  			and custid=#{custid}
+	  		</if>
+	  		<if test="shopid != null and shopid != '' ">
+	  			and shopid=#{shopid}
+	  		</if>		  
+			<if test="custserverstatus !=null and custserverstatus !=''">
+	    		and custserverstatus=#{custserverstatus} 
+			</if>
+	  	</select>
+  	
+  	  <select id="selectMinCust"  parameterType="Integer" resultMap="BaseResultMap">
+  		 select *
+  		 from kefu_shop_cust_status 
+	  	 where shopid=#{shopid}
+		 and joinusernum =(
+		 select min(joinusernum) from kefu_shop_cust_status
+		 where shopid = #{shopid}
+		 and custserverstatus = 'online'
+		 and maxusernum > joinusernum)
+  	 </select> 	
+  	 
+  	 <update id="joinUserNum" parameterType="java.lang.String">
+  	 	update kefu_shop_cust_status
+		set joinusernum = joinusernum+#{num}
+		where 1=1
+		<if test="shopid !=null and shopid !=''">
+    		and shopid=#{shopid} 
+		</if>
+		<if test="custid !=null and custid !=''">
+    		and custid=#{custid} 
+		</if>
+  	 </update>
+  	 
+  	 <select id="findListByCustIdAndShopId"  parameterType="String" resultMap="BaseResultMap">
+  		 select *
+  		 from kefu_shop_cust_status 
+	  	 where shopid=#{shopid} and custid=#{custid}
+  	 </select>
+  	  <select id="searchShopCustBykeyword"  parameterType="String" resultMap="BaseResultMap">
+  		 select *
+  		 from kefu_shop_cust_status 
+	  	 where shopid=#{shopId} and custname like '%'"${keyWord}"'%'
+  	 </select>
+  	 
+  	  <update  id="changeCustServiceUser">
+  		 	update  `kefu_shop_cust_status`
+  		 		set serveruserid = #{serveruserid}
+  		 		where id = #{id};
+  	 </update> 	
+  	  <update  id="changeCustStatue" >
+  		 	update  `kefu_shop_cust_status`
+  		 		set 
+  		 		<if test = "custserverstatus != null">
+  		 			 custserverstatus = #{custserverstatus},
+  		 		</if>
+  		 		<if  test="serviceId ==1 ">
+  		 			serveruserid = null,
+  		 		</if>
+  		 		updatetime = now()
+  		 		where shopid = #{shopId} and custid = #{custid};
+  	 </update>
+  	 
+  	 <update  id="updateMaxusernum" >
+  		 	update  `kefu_shop_cust_status`
+  		 		set maxusernum = #{maxusernum}
+  		 		where shopid = #{shopid} and custid = #{custid};
+  	 </update>
+  	 <select id="findBycustserverstatus"   resultType="com.weikefu.po.ShopCustPo">
+  		 select *
+  		 from kefu_shop_cust_status 
+	  	 where shopid=#{shopid} and custserverstatus=#{custserverstatus}
+  	 </select> 	
+</mapper>

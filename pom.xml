@@ -1,0 +1,156 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.huisou</groupId>
+  <artifactId>huisou_weikefu</artifactId>
+  <version>2</version>
+  <packaging>war</packaging>
+  
+   <parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.8.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	  <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+   <dependencies>
+
+	<dependency>  
+	    <groupId>com.corundumstudio.socketio</groupId>  
+	    <artifactId>netty-socketio</artifactId>  
+	    <version>1.7.12</version>  
+	</dependency>
+	<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>fastjson</artifactId>
+		    <version>1.2.35</version>
+	</dependency>
+	
+	<dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+    </dependency>	
+	<!-- java的加密包 -->
+	<dependency>
+		<groupId>org.jasypt</groupId>
+		<artifactId>jasypt</artifactId>
+		<version>1.9.2</version>
+	</dependency>
+	<dependency>
+		  <groupId>com.github.binarywang</groupId>
+		  <artifactId>weixin-java-miniapp</artifactId>
+		  <version>2.9.0</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-jpa</artifactId>
+	</dependency>
+
+	<!-- 用于ip地址的解析 -->
+   	<dependency>
+	        <groupId>org.lionsoul.ip2region</groupId>
+	        <artifactId>ip2region</artifactId>
+	        <version>1.2.3</version>
+	</dependency>
+   	<!-- java并发框架 -->
+  	<dependency>
+	    <groupId>com.lmax</groupId>
+	    <artifactId>disruptor</artifactId>
+	    <version>3.3.6</version>
+	</dependency>
+	
+	<!-- java 的POI的 操作 ，解析office文件-->
+	<dependency>
+	    <groupId>org.apache.poi</groupId>
+	    <artifactId>poi</artifactId>
+	    <version>3.15</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.apache.poi</groupId>
+	    <artifactId>poi-ooxml</artifactId>
+	    <version>3.15</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+	</dependency>
+
+
+	<!-- 强大的时间 管理输出输出的工具类-->
+	<dependency>
+		    <groupId>joda-time</groupId>
+		    <artifactId>joda-time</artifactId>
+	</dependency>
+   	
+   	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+		 <!-- 移除嵌入式tomcat插件 -->
+		  <exclusions>
+	        <exclusion>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-starter-tomcat</artifactId>
+	        </exclusion>
+	    </exclusions>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-servlet-api</artifactId>
+	    <version>8.0.36</version>
+	    <scope>provided</scope>
+	</dependency>
+	
+	
+   	<!-- 使用mongodb 数据库 -->
+   	<dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-data-mongodb</artifactId>
+    </dependency>
+   	<!-- 热启动 -->
+<!--    	<dependency>
+   		<groupId>org.springframework.boot</groupId>
+   		<artifactId>spring-boot-devtools</artifactId>
+   		<optional>true</optional>
+   	</dependency> -->
+   	<!-- redis -->
+   	  <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+   	<dependency>
+   		<groupId>commons-lang</groupId>
+   		<artifactId>commons-lang</artifactId>
+   		<version>2.6</version>
+   	</dependency>
+   	<dependency>
+   		<groupId>lt.jave</groupId>
+   		<artifactId>jave</artifactId>
+   		<version>1.0.2</version>
+   	</dependency>
+ 
+   	<dependency>
+   		<groupId>org.springframework.boot</groupId>
+   		<artifactId>spring-boot-starter-test</artifactId>
+   	</dependency>
+
+   </dependencies>
+   
+   
+   <build>
+   	<plugins>
+   		<plugin>
+   			<groupId>org.springframework.boot</groupId>
+   			<artifactId>spring-boot-maven-plugin</artifactId>
+   			<configuration>
+   				<fork>true</fork>
+   			</configuration>
+   		</plugin>
+   	</plugins>
+   </build>
+</project>
