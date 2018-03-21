@@ -75,6 +75,7 @@ public class MessageUtils {
 		
 		data.setSendway(ContextConstant.SEND_USERWAY);
 		//给自己发送消息
+	
 		messageDao.insert(data);
 	//	client.sendEvent("message", data);
 		

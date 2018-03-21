@@ -27,10 +27,10 @@ public class ImServerConfiguration{
   
     @Value("${uk.im.server.port}")  
     private Integer port;
-    
+    //通过https创建连接
 //    @Value("${key.store.password}")
 //    private String password;
-//    
+//    https的keyStore文件
 //    @Value("${key.store.file}")
 //    private String keyStore;
     
@@ -50,6 +50,8 @@ public class ImServerConfiguration{
     	Configuration config = new Configuration();
 		config.setPort(port);
 		config.setExceptionListener(new WeKeFuExceptionListener());
+		//使用linux本地的Epoll指令可以增加io的网络的性能
+//		config.setUseLinuxNativeEpoll(true);
 		//判断是否有htts.properties的加密
 //    	if(!StringUtils.isBlank(this.password) && !StringUtils.isBlank(this.keyStore)){
 //    		//设置https的服务器的私钥
@@ -58,7 +60,6 @@ public class ImServerConfiguration{
 //    	    int available = stream.available();
 //    	    config.setKeyStore(stream);
 //    	}
-    	
 
 		//当前线程乘以2 
         config.setBossThreads(33);
@@ -70,7 +71,6 @@ public class ImServerConfiguration{
 				return true;
 			}
 		});
-		
         return this.server = new SocketIOServer(config);
     }
 //    /**

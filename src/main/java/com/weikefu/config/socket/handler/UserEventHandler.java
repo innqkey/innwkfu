@@ -43,8 +43,7 @@ public class UserEventHandler {
 
 	private final Logger logger = LoggerFactory.getLogger(UserEventHandler.class);
 	
-
-
+	
 	@Autowired
 	private RestTemplate template;
 	
@@ -155,7 +154,7 @@ public class UserEventHandler {
     	allotSer.userJoin(localUserId, shopId, client);
     }
     /**
-     * ???，需要前端确定
+     * 
      * 什么时候离线，就是在用用户关闭窗口的时候，删除Netty中的对象
      * @param client
      */

@@ -1,5 +1,7 @@
 package com.weikefu.dao.mangodb;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +15,8 @@ public interface UserInfoDao extends MongoRepository<UserInfo, Long> {
 	UserInfo findByWeiuseridAndJoinway(String weiuserid, String joinway);
 
 	UserInfo findByOpenidAndJoinway(String openid, String joinway);
+
+
+	List<UserInfo> findByNicknameLike(String keyword);
 
 }

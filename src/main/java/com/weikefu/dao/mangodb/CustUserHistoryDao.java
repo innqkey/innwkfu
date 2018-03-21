@@ -1,6 +1,8 @@
 package com.weikefu.dao.mangodb;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,5 +18,7 @@ public interface CustUserHistoryDao extends MongoRepository<CustUserHistory, Lon
 
 
 	Page<ShopUserHistory> findByShopidAndCustidOrderByIdDesc(String shopId, String custId, Pageable pageRequest);
+
+	List<ShopUserHistory> findByShopidAndCustidAndUseridOrderByIdDesc(String shopId, String custId, String userId);
 
 }

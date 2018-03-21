@@ -48,6 +48,7 @@ public class LoginController {
 	
 	private String httpWscUrl = FileUtils.getApplicationPro("http.wsc.url");
 
+	
 	/**
 	 * 登录验证请求，token
 	 * php验证完成后，发送消息给这个端口

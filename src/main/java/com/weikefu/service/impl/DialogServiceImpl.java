@@ -97,12 +97,12 @@ public class DialogServiceImpl implements DialogService {
 				joinInfo.setOpenid(userInfo.getOpenid());
 				joinInfo.setNickname(userInfo.getNickname());
 				joinInfo.setHeadimgurl(userInfo.getHeadimgurl());
+				joinInfo.setJoinway(userInfo.getJoinway());
 			}
 			if(null!=msgVo){
 				joinInfo.setMsgcount(messageCount);
 				//修改了加入的方式，之前是全部是写死为weixin的，现在从用户信息中直接获取加入的类型
-				joinInfo.setJoinway(userInfo.getJoinway());
-
+				
 				if (StringUtils.isNotBlank(msgVo.getMessage())){
 					boolean matches = this.pattern.matcher(msgVo.getMessage()).matches();
 					if (matches){

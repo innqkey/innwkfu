@@ -1,7 +1,9 @@
 package com.weikefu.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +15,17 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.weikefu.cache.RedisDialogCache;
-import com.weikefu.constant.ContextConstant;
+import com.weikefu.cache.RedisUserShopLastMessageCache;
 import com.weikefu.dao.mangodb.CustUserHistoryDao;
+import com.weikefu.dao.mangodb.UserInfoDao;
 import com.weikefu.po.CustUserHistory;
+import com.weikefu.po.Message;
 import com.weikefu.po.ShopUserHistory;
+import com.weikefu.po.UserInfo;
 import com.weikefu.service.CustUserHistoryService;
+import com.weikefu.util.ConvertUtils;
 import com.weikefu.vo.PageTemp;
+import com.weikefu.vo.UserInfoVo;
 
 
 @Service
@@ -27,6 +34,15 @@ public class CustUserHisotryImpl implements CustUserHistoryService {
 	private CustUserHistoryDao custUserHistoryDao;
 	@Autowired
 	private MongoTemplate mongoTemplate;
+	@Autowired
+	private UserInfoDao userInfoDao;
+	@Autowired
+	private RedisUserShopLastMessageCache lastMessage;
+	private Pattern pattern =  Pattern.compile("<\\s*a.*?/a\\s*>");
+	
+	@Autowired
+	private RedisDialogCache redisDialogCache;
+	
 	
 	/**
 	 * 添加客服的历史，先删除，后天添加
@@ -103,7 +119,71 @@ public class CustUserHisotryImpl implements CustUserHistoryService {
 		return null;
 	}
 	
+	/**
+	 * 搜索历史
+	 */
+	@Override
+	public List<UserInfoVo> searchUser(String shopId, String custId, String keyword) {
+		
+		List<UserInfoVo> userHistoryList = new ArrayList<UserInfoVo>();
+		List<UserInfo> userInfos = userInfoDao.findByNicknameLike(keyword);
+		if (userInfos != null && userInfos.size() > 0) {
+			//获取所有的在线的用户的id
+			List<String> dialogAllList = redisDialogCache.getDialogAllList(shopId, custId);
+			if (dialogAllList != null && dialogAllList.size() > 0) {
+				//因为需要使用到contains的方法，并且hashset效率是list的168倍
+				HashSet<String> dialogAllSet = new HashSet<>(dialogAllList);
+				for (UserInfo userInfo : userInfos) {
+					if (dialogAllSet.contains(userInfo.getUserId())) {
+						UserInfoVo userInfoVo = new UserInfoVo();
+						ConvertUtils.convertDtoAndVo(userInfo, userInfoVo);
+						Message userLastMessage = lastMessage.getLastMessage(userInfo.getUserId(), shopId);
+						userInfoVo.setUserId(userInfo.getUserId());
+						userInfoVo.setShopId(shopId);
+						userInfoVo.setHeadimgurl(userInfo.getHeadimgurl());
+						
+						if(null!=userLastMessage){
+							userInfoVo.setTimeTemp(userLastMessage.getCreatetime());
+							if (this.pattern.matcher(userLastMessage.getMessage()).matches()){
+								userInfoVo.setMessage("[链接]");
+							}else{
+								userInfoVo.setMessage(userLastMessage.getMessage());
+							}
+							
+							userInfoVo.setMsgtype(userLastMessage.getMsgtype());
+						}
+						
+						userInfoVo.setNickname(userInfo.getNickname());
+						userHistoryList.add(userInfoVo);
+					}
+					
+				}
+			}
+			//排序
+			if (userHistoryList.size() > 0) {
+				insertSort(userHistoryList);
+			}
+			
+		}
+		
+		return userHistoryList;
+	}
 	
+	// 根据时间进行排序算法
+		public void insertSort(List<UserInfoVo> a) {
+			int i, j;// 要插入的数据
+			UserInfoVo date;
+			for (i = 1; i < a.size(); i++) {// 从数组的第二个元素开始循环将数组中的元素插入
+				date = a.get(i);// 设置数组中的第2个元素为第一次循环要插入的数据
+				j = i - 1;
+
+				while (j >= 0 && date.getTimeTemp().getTime() > a.get(j).getTimeTemp().getTime()) {
+					a.set(j + 1, a.get(j));// 如果要插入的元素小于第j个元素,就将第j个元素向后移动
+					j--;
+				}
+				a.set(j + 1, date);// 直到要插入的元素不小于第j个元素,将insertNote插入到数组中
+			}
+		}
 	
 
 }

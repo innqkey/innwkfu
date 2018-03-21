@@ -22,11 +22,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 		UserInfo info = null;
 		//下面这么做的原因是应为防止没有openid出现的异常
 		if (StringUtils.isNotBlank(userInfo.getOpenid()) ) {
-			info = userInfoDao.findByWeiuseridAndJoinway(userInfo.getWeiuserid(),userInfo.getJoinway());
+			info = userInfoDao.findByOpenidAndJoinway(userInfo.getOpenid(),userInfo.getJoinway());
 		}
 		
 		if (StringUtils.isBlank(userInfo.getOpenid()) && StringUtils.isNotBlank(userInfo.getWeiuserid())) {
-			info = userInfoDao.findByOpenidAndJoinway(userInfo.getOpenid(),userInfo.getJoinway());
+			info = userInfoDao.findByWeiuseridAndJoinway(userInfo.getWeiuserid(),userInfo.getJoinway());
 		}
 		//这个是更新操作
 		if (info != null) {

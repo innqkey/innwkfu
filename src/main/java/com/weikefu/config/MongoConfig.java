@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
 /**
-* 类说明：description:
+* 类说明：mongodb的配置类，用来去除mongodb的中的_class的显示
  * When using spring data mongo it by default adds a _class key to your collection to be able to handle inheritance.
  * But if your domain model is simple and flat, you can remove it by overriding the default MappingMongoConverter
  * @author:@luomouren.

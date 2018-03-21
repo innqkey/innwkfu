@@ -1,5 +1,6 @@
 package com.weikefu.controller;
 
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -110,6 +111,7 @@ public class UserController {
 	@RequestMapping("/receiveMessage")
 	public String receive(@RequestBody @Valid WeiXinMessage weiXinMessage,BindingResult result, HttpServletRequest request) {
 		try {   
+				long beginTime = System.currentTimeMillis();
 				//用来校验参数是否为空
 				if (result.hasErrors()) {
 					return ResUtils.execRes();
@@ -130,6 +132,7 @@ public class UserController {
 							allotSer.userJoin(userInfo.getUserId(), weiXinMessage.getShopId(), null);
 						}
 						sendMessage(messageWeixin, message, msgType, userInfo);
+						logger.info("接受消息总共消耗时间---" + (System.currentTimeMillis() - beginTime));
 						return ResUtils.okRes();
 					}
 			}
@@ -145,7 +148,7 @@ public class UserController {
 		message.setHeadurl(userInfo.getHeadimgurl());
 		message.setSendway(ContextConstant.SEND_USERWAY);
 		message.setUserid(userInfo.getUserId());
-		message.setUsername(message.getUsername());
+		message.setUsername(userInfo.getNickname());
 		message.setMsgtype(msgType);
 		message.setCreatetime(new Date());
 		if (ContextConstant.MES_IMAGE.equals(msgType)) {

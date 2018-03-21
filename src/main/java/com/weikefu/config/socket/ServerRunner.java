@@ -35,7 +35,7 @@ public class ServerRunner implements CommandLineRunner {
 	@Autowired
 	private CustomerEventHandler customerEventHandler;
 	/**
-	 * 用于注入server
+	 * 用于区分命名的空间就是通过 
 	 */
 	@Autowired
 	public ServerRunner(SocketIOServer server) {
@@ -61,7 +61,7 @@ public class ServerRunner implements CommandLineRunner {
     }
 
 	/**
-	 * 启动socket
+	 * 启动socket服务器
 	 */
 	@Override
 	public void run(String... args) throws Exception {

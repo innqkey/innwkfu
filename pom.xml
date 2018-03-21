@@ -90,20 +90,20 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-web</artifactId>
 		 <!-- 移除嵌入式tomcat插件 -->
-		  <exclusions>
+		<!--   <exclusions>
 	        <exclusion>
 	            <groupId>org.springframework.boot</groupId>
 	            <artifactId>spring-boot-starter-tomcat</artifactId>
 	        </exclusion>
-	    </exclusions>
+	    </exclusions> -->
 	</dependency>
-	
+	<!-- 
 	<dependency>
 	    <groupId>org.apache.tomcat</groupId>
 	    <artifactId>tomcat-servlet-api</artifactId>
 	    <version>8.0.36</version>
 	    <scope>provided</scope>
-	</dependency>
+	</dependency> -->
 	
 	
    	<!-- 使用mongodb 数据库 -->
@@ -112,11 +112,11 @@
        <artifactId>spring-boot-starter-data-mongodb</artifactId>
     </dependency>
    	<!-- 热启动 -->
-<!--    	<dependency>
+   	<dependency>
    		<groupId>org.springframework.boot</groupId>
    		<artifactId>spring-boot-devtools</artifactId>
    		<optional>true</optional>
-   	</dependency> -->
+   	</dependency>
    	<!-- redis -->
    	  <dependency>
             <groupId>org.springframework.boot</groupId>

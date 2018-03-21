@@ -240,6 +240,7 @@ public class CustomerEventHandler{
     		client.sendEvent("errPara", "发送失败");
     		return;
     	}
+    	
     	String accesstoken = getAccessToken(data, userInfo);
     	if (StringUtils.isBlank(accesstoken)) {
     		client.sendEvent("errPara", "发送失败");
@@ -257,6 +258,7 @@ public class CustomerEventHandler{
     		if( pattern.matcher(data.getMessage().trim()).matches()){
     			data.setMessage("<a style='color:blue'  href='" + data.getMessage() + "' target='view_window'>" + data.getMessage() + "</a>");
     		}
+    		
     		weiXinContent.setContent(data.getMessage());
     		map.put("text", weiXinContent);
     	}else if (ContextConstant.MES_IMAGE.equals(msgtype)) {
@@ -275,6 +277,7 @@ public class CustomerEventHandler{
     			if (result != null) {
     				JSONObject parseObject = JSONObject.parseObject(result);
     				Integer errcode = parseObject.getInteger("errcode");
+    				
     				if (null != errcode) {
     					if (errcode.equals(ContextConstant.WEIXIN_OK)) {
     						//保存完成结束循环

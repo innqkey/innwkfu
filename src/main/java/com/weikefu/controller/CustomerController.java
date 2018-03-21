@@ -162,7 +162,6 @@ public class CustomerController {
 
 			messageCountCache.clearMessageCount(shopId,userId,custId);
 			long end = System.currentTimeMillis()-begin;
-			System.out.println("selectedUser接口消耗时间==" + end);
 			return ResUtils.okRes();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -276,6 +275,8 @@ public class CustomerController {
 		}
 		return ResUtils.execRes("结果为空");
 	}
+	
+
 
 	/***
 	 * 在转接的时候，搜索对应的客服名称
@@ -461,7 +462,7 @@ public class CustomerController {
 	 * @param request
 	 * @param shopId
 	 * @param custId
-	 * @param userIds，批量关闭userids，userid用都好分隔',';userIds = 1,2,3
+	 * @param userIds，批量关闭userids，userid用逗号分隔',';userIds = 1,2,3
 	 * @return
 	 */
 	@RequestMapping("/closeDialog")
@@ -556,6 +557,8 @@ public class CustomerController {
 			return ResUtils.okRes("0");
 		}
 	}
+	
+
 
 	/**
 	 * 在同以个room中所有的Customer的详细情况
@@ -588,7 +591,7 @@ public class CustomerController {
 	 * @return
 	 */
 	@RequestMapping(value = "/userHistoryList")
-	public String userHistoryList(String shopId, String custId, PageTemp page) {
+	public String userHistoryList(String shopId, String custId,PageTemp page) {
 		if (StringUtils.isEmpty(shopId) || StringUtils.isEmpty(custId)) {
 			return ResUtils.errRes("404", "请求参数有误");
 		}
@@ -624,6 +627,27 @@ public class CustomerController {
 		
 		return ResUtils.okRes(userHistoryList);
 	}
+	/**
+	 * 
+	 * 通过关键字搜索用户的名字
+	 * @param shopId
+	 * @param custId
+	 * @param keyword
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value = "/searchUser")
+	public String searchUserHistory(String shopId, String custId,String keyword) {
+		if (StringUtils.isEmpty(shopId) || StringUtils.isEmpty(custId)) {
+			return ResUtils.errRes("404", "请求参数有误");
+		}
+		if (StringUtils.isBlank(keyword)) {
+			return ResUtils.okRes(null);
+		}
+		List<UserInfoVo> list = custHistCache.searchUser(shopId,custId,keyword.trim());
+		return ResUtils.okRes(list);
+	}
+	
 	
 	/*
 	 * 获取当前会话用户信息
@@ -761,7 +785,7 @@ public class CustomerController {
 	}
 
 
-		/**
+	/**
 	 * 用户返回用户的额信息,搜索先不做
 	 * @parm Keywod是关键字搜索
 	 *
@@ -782,6 +806,8 @@ public class CustomerController {
 			return ResUtils.execRes("非法参数");
 		}
 	}
+	
+	
 	
 
 }
