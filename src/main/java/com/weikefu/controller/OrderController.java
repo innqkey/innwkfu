@@ -100,7 +100,7 @@ public class OrderController {
 				for (int i = 0; i < jsonArray.size(); i++) {
 					JSONObject orderObject = jsonArray.getJSONObject(i);
 					UserOrderVo userOrderVo = new UserOrderVo();
-					userOrderVo.setOrderId(orderObject.getString("id"));
+					userOrderVo.setOrderId(orderObject.getString("relate_order_id"));
 					userOrderVo.setOrderNumber(orderObject.getString("oid"));
 					userOrderVo.setOrderTime(orderObject.getString("created_at"));
 					userOrderVo.setOrderImg(orderObject.getString("goods_img"));

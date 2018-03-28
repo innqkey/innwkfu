@@ -16,6 +16,9 @@ import com.weikefu.util.DateUtils;
 public class UserInfoVo {
 	
 	private String userId;
+	
+	
+	private String weiuserid;
 	//使用微信的id
 	private String openid;
 	//头像的名称
@@ -27,7 +30,14 @@ public class UserInfoVo {
 
 	private String shopId;
 
-
+	
+	
+	public String getWeiuserid() {
+		return weiuserid;
+	}
+	public void setWeiuserid(String weiuserid) {
+		this.weiuserid = weiuserid;
+	}
 	public String getUserId() {
 		return userId;
 	}

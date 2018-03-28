@@ -14,9 +14,14 @@ public interface UserInfoDao extends MongoRepository<UserInfo, Long> {
 
 	UserInfo findByWeiuseridAndJoinway(String weiuserid, String joinway);
 
-	UserInfo findByOpenidAndJoinway(String openid, String joinway);
 
 
 	List<UserInfo> findByNicknameLike(String keyword);
+
+
+	UserInfo findByOpenidAndWeiuseridAndJoinway(String openid, String weiuserid, String joinway);
+
+
+	UserInfo findByOpenidAndJoinway(String string, String joinwaySmallroutine);
 
 }

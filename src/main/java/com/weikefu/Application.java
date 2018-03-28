@@ -15,6 +15,7 @@ public class Application extends SpringBootServletInitializer{
     private RestTemplateBuilder builder;  
   
  	// 使用RestTemplateBuilder来实例化RestTemplate对象，spring默认已经注入了RestTemplateBuilder实例
+	
     @Bean  
     public RestTemplate restTemplate() {  
     	RestTemplate build = builder.build();
